@@ -1,11 +1,12 @@
 {
-  "name": "golicodeutils",
-  "version": "1.0.0",
+  "name": "golicodeutils2",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "ofergolibroda",
+  "license": "ISC",
+  "private": false
 }
