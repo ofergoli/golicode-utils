@@ -340,6 +340,20 @@ const ping = (code = '') => {
     });
 };
 
+const sendUserCodeForQuestion = (code) => {
+    fetch(`${window.origin_url_path}/user/question-solution`, {
+        body: JSON.stringify({
+            email: window.user_email,
+            questionId: window.question_id,
+            userCode: code
+        }),
+        method: "patch",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+}
+
 module.exports = {
     searchVariableDeclaration,
     isVariableDeclared,
@@ -359,4 +373,5 @@ module.exports = {
     searchArrayDeclatrionByName,
     createtCodeBlockWithReturn,
     ping,
+    sendUserCodeForQuestion,
 }
