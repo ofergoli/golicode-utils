@@ -347,7 +347,7 @@ const sendUserCodeForQuestion = (code) => {
             questionId: window.question_id,
             userCode: code
         }),
-        method: "patch",
+        method: "post",
         headers: {
             "Content-Type": "application/json"
         }
