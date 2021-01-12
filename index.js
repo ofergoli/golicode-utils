@@ -325,12 +325,12 @@ const createtCodeBlockWithReturn = (ast, returnValue) => {
     return codeBlockFunction
 }
 
-const ping = (code, host, user_email, question_id, socket_id) => {
-    fetch(`${host}/user/question-status`, {
+const ping = (code = '') => {
+    fetch(`${window.origin_url_path}/user/question-status`, {
         body: JSON.stringify({
-            email: user_email,
-            questionId: question_id,
-            socketId: socket_id,
+            email: window.user_email,
+            questionId: window.question_id,
+            socketId: window.socket_id,
             userCode: code
         }),
         method: "post",
