@@ -230,30 +230,16 @@ const findForLoopDeclatrion = (program, order) => {
     const {
         init: { declarations }
     } = forLoops[order];
-
-    let startValue = null;
-    if (declarations[0].init.value || declarations[0].init.value === 0) {
-        startValue = declarations[0].init.value;
-    }
-    else if (declarations[0].init.operator === '-') {
-        startValue = -1 * declarations[0].init.argument.value;
-    }
-
-    let endValue = null;
-    if (forLoops[order].test.right.value || forLoops[order].test.right.value === 0) {
-        endValue = forLoops[order].test.right.value;
-    }
-    else if (forLoops[order].test.right.operator === '-') {
-        endValue = -1 * forLoops[order].test.right.argument.value;
-    }
-
+    const {
+        init: { value: startValue }
+    } = declarations[0];
     const {
         test: {
             operator,
+            right: { value: endValue }
         }
     } = forLoops[order];
-
-    return { startValue, endValue, operator };
+    return { startValue, endValue, operator, forBlock: forLoops[order] };
 };
 
 const haveForLoopDeclatrion = (program) => {
