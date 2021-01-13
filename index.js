@@ -340,6 +340,28 @@ const ping = (code = '') => {
     });
 };
 
+const searchConsoleLog = (program, order) => {
+    const expresstionStatements = program.body.filter(
+        ({ type }) => type === "ExpressionStatement"
+    );
+    if (expresstionStatements.length === 0) {
+        return false;
+    }
+    const consoleLogs = expresstionStatements.filter(
+        ({
+            expression: {
+                callee: {
+                    object: { name }
+                }
+            }
+        }) => name === "console"
+    );
+    if (consoleLogs.length === 0) {
+        return false;
+    }
+    return consoleLogs[order].expression.arguments;
+};
+
 const sendUserCodeForQuestion = (code) => {
     if (false) {
         fetch(`${window.origin_url_path}/user/question-solution`, {
@@ -376,4 +398,5 @@ module.exports = {
     createtCodeBlockWithReturn,
     ping,
     sendUserCodeForQuestion,
+    searchConsoleLog,
 }
