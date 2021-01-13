@@ -348,6 +348,37 @@ const searchConsoleLog = (program, order) => {
     return consoleLogs[order].expression.arguments;
 };
 
+
+const findForLoopDeclatrionWithNegative = (program, order) => {
+    const forLoops = program.body.filter(({ type }) => type === "ForStatement");
+    if (forLoops.length <= order) {
+        return false;
+    }
+    const {
+        init: { declarations }
+    } = forLoops[order];
+
+    let startValue = null;
+    if (declarations[0].init.value) {
+        startValue = declarations[0].init.value;
+    } else if (declarations[0].init.operator === "-") {
+        startValue = -1 * declarations[0].init.argument.value;
+    }
+
+    let endValue = null;
+    if (forLoops[order].test.right.value) {
+        endValue = forLoops[order].test.right.value;
+    } else if (forLoops[order].test.right.operator === "-") {
+        endValue = -1 * forLoops[order].test.right.argument.value;
+    }
+
+    const {
+        test: { operator }
+    } = forLoops[order];
+
+    return { startValue, endValue, operator };
+};
+
 const sendUserCodeForQuestion = (code) => {
     if (false) {
         fetch(`${window.origin_url_path}/user/question-solution`, {
@@ -385,4 +416,5 @@ module.exports = {
     ping,
     sendUserCodeForQuestion,
     searchConsoleLog,
+    findForLoopDeclatrionWithNegative,
 }
