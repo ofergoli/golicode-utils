@@ -232,7 +232,7 @@ const findForLoopDeclatrion = (program, order) => {
     } = forLoops[order];
 
     let startValue = null;
-    if (declarations[0].init.value) {
+    if (declarations[0].init.value || declarations[0].init.value === 0) {
         startValue = declarations[0].init.value;
     }
     else if (declarations[0].init.operator === '-') {
@@ -240,7 +240,7 @@ const findForLoopDeclatrion = (program, order) => {
     }
 
     let endValue = null;
-    if (forLoops[order].test.right.value) {
+    if (forLoops[order].test.right.value || forLoops[order].test.right.value === 0) {
         endValue = forLoops[order].test.right.value;
     }
     else if (forLoops[order].test.right.operator === '-') {
