@@ -341,17 +341,19 @@ const ping = (code = '') => {
 };
 
 const sendUserCodeForQuestion = (code) => {
-    fetch(`${window.origin_url_path}/user/question-solution`, {
-        body: JSON.stringify({
-            email: window.user_email,
-            questionId: window.question_id,
-            userCode: code
-        }),
-        method: "post",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+    if (false) {
+        fetch(`${window.origin_url_path}/user/question-solution`, {
+            body: JSON.stringify({
+                email: window.user_email,
+                questionId: window.question_id,
+                userCode: code
+            }),
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
 }
 
 module.exports = {
