@@ -379,6 +379,49 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
     return { startValue, endValue, operator };
 };
 
+const getIfStatements = (program, order) =>
+    program.body.filter(({ type }) => type === "IfStatement")[order];
+
+const getIfDeclaration = (program, order) => {
+    const IfStatement = getIfStatements(program, order);
+    if (!IfStatement) {
+        return false;
+    }
+    if (!IfStatement.alternate) {
+        //just if case
+        return "if";
+    }
+    if (IfStatement.alternate && IfStatement.alternate.alternate) {
+        //elseif case
+        return "elseif";
+    }
+    if (IfStatement.alternate) {
+        //just else case
+        return "else";
+    }
+    return false;
+};
+
+const isValidElseIfDeclaration = (program, order) => {
+    const ifType = getIfDeclaration(program, order);
+    if (!ifType || (ifType && ifType !== "elseif")) {
+        return false;
+    }
+    const ifStatement = getIfStatements(program, order);
+    let current = ifStatement.alternate;
+    while (current) {
+        if (
+            current.test &&
+            current.test.operator &&
+            current.test.operator === "="
+        ) {
+            return false;
+        }
+        current = current.alternate;
+    }
+    return true;
+};
+
 const sendUserCodeForQuestion = (code) => {
     if (false) {
         fetch(`${window.origin_url_path}/user/question-solution`, {
@@ -417,4 +460,7 @@ module.exports = {
     sendUserCodeForQuestion,
     searchConsoleLog,
     findForLoopDeclatrionWithNegative,
+    isValidElseIfDeclaration,
+    getIfDeclaration,
+    getIfStatements
 }
