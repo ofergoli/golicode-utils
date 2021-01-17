@@ -430,6 +430,16 @@ const isValidElseIfDeclaration = (program, order) => {
     return true;
 };
 
+const getWhileLooop = (program, order) => {
+    const whileLoops = program.body.filter(
+        ({ type }) => type === "WhileStatement"
+    );
+    if (whileLoops.length === 0) {
+        return false;
+    }
+    return whileLoops[order];
+};
+
 const isValidCondition = (condition) => {
     if (!condition) {
         return false;
@@ -479,5 +489,6 @@ module.exports = {
     isValidElseIfDeclaration,
     getIfDeclaration,
     getIfStatements,
-    isValidCondition
+    isValidCondition,
+    getWhileLooop
 }
