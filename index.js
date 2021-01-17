@@ -11,6 +11,9 @@ const searchVariableDeclaration = (program, varName) => {
     if (!variable) {
         return null;
     }
+    if (variable.declarations[0].init.operator === '-') {
+        return -variable.declarations[0].init.argument.value;
+    }
     return variable.declarations[0].init.value;
 };
 
