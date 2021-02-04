@@ -440,6 +440,20 @@ const getWhileLooop = (program, order) => {
     return whileLoops[order];
 };
 
+const findFunctionDeclaration = (program, funcName) => {
+    const functions = program.body.filter(
+        (x) => x.type === "FunctionDeclaration"
+    );
+    if (functions.length === 0) {
+        return false;
+    }
+    const func = functions.find(x => x.id && x.id.name === funcName);
+    if (!func) {
+        return false;
+    }
+    return func;
+}
+
 const isValidCondition = (condition) => {
     if (!condition) {
         return false;
@@ -490,5 +504,6 @@ module.exports = {
     getIfDeclaration,
     getIfStatements,
     isValidCondition,
-    getWhileLooop
+    getWhileLooop,
+    findFunctionDeclaration
 }
