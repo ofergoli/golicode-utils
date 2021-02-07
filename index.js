@@ -200,14 +200,15 @@ const countLoops = program => {
     return forOrWhile.length;
 }
 
-const isNestedLoops = program => {
-    const forOrWhile = program.body.filter(({ type }) => type === "WhileStatement" || type === "ForStatement");
+const isNestedLoops = (program) => {
+    const forOrWhile = program.body.filter(
+        ({ type }) => type === "WhileStatement" || type === "ForStatement"
+    );
     if (forOrWhile.length === 0) {
         return false;
     }
-    const nested = forOrWhile[0].body.filter(({ type }) => type === "WhileStatement" || type === "ForStatement");
-    return nested.length === 1;
-}
+    return forOrWhile[0].body.body.some(({ type }) => type === "WhileStatement" || type === "ForStatement");
+};
 
 const searchVaiableAssinementExpression = (program, varName) => {
     const vars = program.body.filter(
@@ -379,7 +380,7 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
         test: { operator }
     } = forLoops[order];
 
-    return { startValue, endValue, operator };
+    return { startValue, endValue, operator, declration: forLoops[order] };
 };
 
 const getIfStatements = (program, order) => {
@@ -505,5 +506,6 @@ module.exports = {
     getIfStatements,
     isValidCondition,
     getWhileLooop,
-    findFunctionDeclaration
+    findFunctionDeclaration,
+    isNestedLoops
 }
