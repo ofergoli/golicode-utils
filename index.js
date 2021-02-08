@@ -363,15 +363,39 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
     } = forLoops[order];
 
     let startValue = null;
-    if (declarations[0].init.value) {
+    if (declarations[0].init.value || declarations[0].init.value === 0) {
         startValue = declarations[0].init.value;
+    } else if (declarations[0].init.type === "Identifier") {
+        startValue = declarations[0].init.name;
+    } else if (declarations[0].init.type === "UnaryExpression") {
+        startValue =
+            declarations[0].init.operator + declarations[0].init.argument.name;
+    } else if (declarations[0].init.type === "BinaryExpression") {
+        startValue =
+            declarations[0].init.left.name +
+            declarations[0].init.operator +
+            declarations[0].init.right.value;
     } else if (declarations[0].init.operator === "-") {
         startValue = -1 * declarations[0].init.argument.value;
     }
 
     let endValue = null;
-    if (forLoops[order].test.right.value) {
+    if (
+        forLoops[order].test.right.value ||
+        forLoops[order].test.right.value === 0
+    ) {
         endValue = forLoops[order].test.right.value;
+    } else if (forLoops[order].test.right.type === "Identifier") {
+        endValue = forLoops[order].test.right.name;
+    } else if (forLoops[order].test.right.type === "UnaryExpression") {
+        endValue =
+            forLoops[order].test.right.operator +
+            forLoops[order].test.right.argument.name;
+    } else if (forLoops[order].test.right.type === "BinaryExpression") {
+        endValue =
+            forLoops[order].test.right.left.name +
+            forLoops[order].test.right.operator +
+            forLoops[order].test.right.right.value;
     } else if (forLoops[order].test.right.operator === "-") {
         endValue = -1 * forLoops[order].test.right.argument.value;
     }
@@ -382,6 +406,7 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
 
     return { startValue, endValue, operator, declration: forLoops[order] };
 };
+
 
 const getIfStatements = (program, order) => {
     const ifs = program.body.filter(({ type }) => type === "IfStatement");
