@@ -330,7 +330,7 @@ const ping = (code = '') => {
     });
 };
 
-const sendQuestion = (body, cb) => fetch(`${window.origin_url_path}/user/run-question-test`, {
+const sendQuestion = (body) => fetch(`${window.origin_url_path}/user/run-question-test`, {
     method: "POST",
     body: JSON.stringify({ dom: body }),
     headers: {
