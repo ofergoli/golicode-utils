@@ -330,6 +330,14 @@ const ping = (code = '') => {
     });
 };
 
+const sendQuestion = (body, cb) => fetch(`${window.origin_url_path}/user/run-question-test`, {
+    method: "POST",
+    body: JSON.stringify({ dom: body }),
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
 const searchConsoleLog = (program, order) => {
     const expresstionStatements = program.body.filter(
         ({ type }) => type === "ExpressionStatement"
@@ -532,5 +540,6 @@ module.exports = {
     isValidCondition,
     getWhileLooop,
     findFunctionDeclaration,
-    isNestedLoops
+    isNestedLoops,
+    sendQuestion
 }
