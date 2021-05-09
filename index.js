@@ -496,13 +496,26 @@ const isValidCondition = (condition) => {
     return condition.test.value || allowedOperators.some(o => o === condition.test.operator)
 }
 
-const sendUserCodeForQuestion = (code) => {
-    if (false) {
+const sendUserCodeForQuestion = (js, html, css) => {
+    if (window.codeBoxSendCodeToServer) {
         fetch(`${window.origin_url_path}/user/question-solution`, {
             body: JSON.stringify({
                 email: window.user_email,
                 questionId: window.question_id,
-                userCode: code
+                userCode: {
+                    js: {
+                        fileName: "index.js",
+                        content: js
+                    },
+                    html: {
+                        fileName: "index.html",
+                        content: html
+                    },
+                    css: {
+                        fileName: "styles.css",
+                        content: css
+                    }
+                }
             }),
             method: "post",
             headers: {
@@ -511,6 +524,8 @@ const sendUserCodeForQuestion = (code) => {
         });
     }
 }
+
+
 
 module.exports = {
     searchVariableDeclaration,
