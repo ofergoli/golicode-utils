@@ -501,6 +501,7 @@ const sendUserCodeForQuestion = (js, html, css) => {
         fetch(`${window.origin_url_path}/user/question-solution`, {
             body: JSON.stringify({
                 email: window.user_email,
+                socketId: window.socket_id,
                 questionId: window.question_id,
                 userCode: {
                     js: {
