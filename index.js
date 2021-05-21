@@ -376,8 +376,7 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
     } else if (declarations[0].init.type === "Identifier") {
         startValue = declarations[0].init.name;
     } else if (declarations[0].init.type === "UnaryExpression") {
-        startValue =
-            declarations[0].init.operator + declarations[0].init.argument.name;
+        startValue = Number(declarations[0].init.operator + declarations[0].init.argument.value);
     } else if (declarations[0].init.type === "BinaryExpression") {
         startValue =
             declarations[0].init.left.name +
@@ -396,9 +395,7 @@ const findForLoopDeclatrionWithNegative = (program, order) => {
     } else if (forLoops[order].test.right.type === "Identifier") {
         endValue = forLoops[order].test.right.name;
     } else if (forLoops[order].test.right.type === "UnaryExpression") {
-        endValue =
-            forLoops[order].test.right.operator +
-            forLoops[order].test.right.argument.name;
+        endValue = Number(forLoops[order].test.right.operator + forLoops[order].test.right.argument.value);
     } else if (forLoops[order].test.right.type === "BinaryExpression") {
         endValue =
             forLoops[order].test.right.left.name +
