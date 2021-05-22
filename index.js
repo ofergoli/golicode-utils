@@ -495,7 +495,7 @@ const isValidCondition = (condition) => {
 
 const sendUserCodeForQuestion = (js, html, css) => {
     if (window.codeBoxSendCodeToServer) {
-        fetch(`${window.origin_url_path}/user/question-solution`, {
+        return fetch(`${window.origin_url_path}/user/question-solution`, {
             body: JSON.stringify({
                 email: window.user_email,
                 socketId: window.socket_id,
@@ -521,6 +521,7 @@ const sendUserCodeForQuestion = (js, html, css) => {
             }
         });
     }
+    return Promise.resolve();
 }
 
 
