@@ -193,6 +193,54 @@ const searchAndFetchVarableByNameDeclaration = (program, varName) => {
     return { variable: expressionStatementValue.expression.right, value };
 };
 
+const searchAndFetchVarableByNameDeclarationWithKind = (program, varName, kindVar) => {
+    const foundedVar = program.body
+        .filter(
+            ({ type, kind }) => type === "VariableDeclaration" && kind === kindVar
+        )
+        .find((x) => x.declarations[0].id.name === varName);
+    if (!foundedVar) {
+        return false;
+    }
+    let variableDeclarationName = null;
+    if (
+        foundedVar.declarations &&
+        foundedVar.declarations[0] &&
+        foundedVar.declarations[0].init
+    ) {
+        return {
+            variable: foundedVar.declarations[0].init,
+            value: foundedVar.declarations[0].init.value
+        };
+    }
+    if (
+        foundedVar.declarations &&
+        foundedVar.declarations[0] &&
+        foundedVar.declarations[0].id
+    ) {
+        variableDeclarationName = foundedVar.declarations[0].id.name;
+    }
+    const varsExpressionStatement = program.body.filter(
+        ({ type }) => type === "ExpressionStatement"
+    );
+    const expressionStatementValue = varsExpressionStatement.find(
+        ({
+            expression: {
+                left: { name }
+            }
+        }) => name === variableDeclarationName
+    );
+    if (!expressionStatementValue) {
+        return undefined;
+    }
+    const {
+        expression: {
+            right: { value }
+        }
+    } = expressionStatementValue;
+    return { variable: expressionStatementValue.expression.right, value };
+};
+
 const includeWhileOrForLoop = body => body.some(({ type }) => type === "WhileStatement" || type === "ForStatement");
 
 const countLoops = program => {
@@ -555,5 +603,6 @@ module.exports = {
     getWhileLooop,
     findFunctionDeclaration,
     isNestedLoops,
-    sendQuestion
+    sendQuestion,
+    searchAndFetchVarableByNameDeclarationWithKind
 }
